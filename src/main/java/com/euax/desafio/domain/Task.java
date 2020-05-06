@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.data.repository.cdi.Eager;
+
 
 @Entity
 public class Task implements Serializable{
@@ -29,7 +31,7 @@ public class Task implements Serializable{
 	private boolean finished;
 	
 	@ManyToOne
-	@JoinColumn(name = "project_id")
+	@JoinColumn(name = "project_id")	
 	private Project project;
 	
 	public Task() {

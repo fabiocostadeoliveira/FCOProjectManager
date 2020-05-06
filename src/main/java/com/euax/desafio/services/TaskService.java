@@ -57,7 +57,7 @@ public class TaskService {
 	
 	
 	public Task fromDTO(TaskDTO taskDTO) {
-		return new Task();
+		return new Task(taskDTO.getId(),taskDTO.getName(), taskDTO.getStartDate(), taskDTO.getEndDate(), taskDTO.isFinished());
 	}
 
 	

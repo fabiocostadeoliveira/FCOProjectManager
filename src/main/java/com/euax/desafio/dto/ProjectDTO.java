@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.euax.desafio.domain.Project;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ProjectDTO implements Serializable{
 
@@ -19,8 +20,10 @@ public class ProjectDTO implements Serializable{
 	@Length(min = 5, max = 30, message = "O tamanho deve ser entre 5 e 30 caracteres.")
 	private String name;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	public ProjectDTO() {

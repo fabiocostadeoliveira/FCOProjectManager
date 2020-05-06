@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.euax.desafio.domain.Task;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class TaskDTO implements Serializable{
 	
@@ -19,8 +20,10 @@ public class TaskDTO implements Serializable{
 	@Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres.")
 	private String name;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	private boolean finished;
@@ -36,6 +39,7 @@ public class TaskDTO implements Serializable{
 		this.startDate = task.getStartDate();
 		this.endDate = task.getEndDate();
 		this.finished = task.isFinished();
+		//this.project = task.getProject(); // TODO - ajustar conversao de dto
 	}
 
 	public Integer getId() {

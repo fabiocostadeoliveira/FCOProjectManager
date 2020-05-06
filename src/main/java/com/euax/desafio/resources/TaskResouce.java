@@ -15,30 +15,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.euax.desafio.domain.Project;
 import com.euax.desafio.domain.Task;
 import com.euax.desafio.dto.TaskDTO;
+import com.euax.desafio.services.ProjectService;
 import com.euax.desafio.services.TaskService;
 
 //TODO COLOCAR NO PATH projectId
 @RestController
-@RequestMapping(value = "/tasks")
+@RequestMapping(value = "/{projectId}/tasks")
 public class TaskResouce {
 	
 	@Autowired
 	private TaskService service;
 	
+	@Autowired
+	private ProjectService projectService;
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Task> find(@PathVariable Integer id) {
+	public ResponseEntity<Task> find(@PathVariable Integer projectId, @PathVariable Integer id) {
 		
 		Task task = service.find(id);
 		return ResponseEntity.ok().body(task);
 	}
 	
-	/*
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody TaskDTO objDto){
+	public ResponseEntity<Void> insert(@PathVariable Integer projectId, @Valid @RequestBody TaskDTO objDto){
+		
+		Project project = projectService.find(projectId);
 		
 		Task obj = service.fromDTO(objDto);
+		
+		obj.setProject(project);
 		
 		obj = service.insert(obj);
 		
@@ -48,9 +56,9 @@ public class TaskResouce {
 				.toUri(); 
 		
 		return ResponseEntity.created(uri).build();
-	}*/
+	}
 	
-	@RequestMapping(value = "/{projectId}/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}/", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update (@Valid @RequestBody TaskDTO objDto, @PathVariable Integer projectId){
 		
 		Task obj = service.fromDTO(objDto);
