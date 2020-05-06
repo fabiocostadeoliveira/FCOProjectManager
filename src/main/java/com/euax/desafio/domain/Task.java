@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 @Entity
 public class Task implements Serializable{
@@ -24,6 +27,10 @@ public class Task implements Serializable{
 	private Date endDate;
 	
 	private boolean finished;
+	
+	@ManyToOne
+	@JoinColumn(name = "project_id")
+	private Project project;
 	
 	public Task() {
 	}
@@ -75,6 +82,14 @@ public class Task implements Serializable{
 
 	public void setFinished(boolean finished) {
 		this.finished = finished;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	@Override

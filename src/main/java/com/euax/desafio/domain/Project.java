@@ -1,12 +1,18 @@
 package com.euax.desafio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Project implements Serializable{
@@ -19,9 +25,14 @@ public class Project implements Serializable{
 	
 	private String name;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
+	
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	private List<Task> tasks = new ArrayList<>();
 	
 	public Project() {
 	
@@ -65,6 +76,14 @@ public class Project implements Serializable{
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	@Override

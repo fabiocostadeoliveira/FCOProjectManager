@@ -25,6 +25,8 @@ public class TaskDTO implements Serializable{
 	
 	private boolean finished;
 	
+	private ProjectDTO project;
+	
 	public TaskDTO() {
 	}
 	
@@ -79,5 +81,15 @@ public class TaskDTO implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public ProjectDTO getProject() {
+		return project;
+	}
+
+	public void setProject(ProjectDTO project) {
+		this.project = project;
+	}
+	
+	
 
 }
