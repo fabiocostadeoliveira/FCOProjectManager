@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.springframework.data.repository.cdi.Eager;
-
 
 @Entity
 public class Task implements Serializable{
@@ -37,13 +35,14 @@ public class Task implements Serializable{
 	public Task() {
 	}
 	
-	public Task(Integer id, String name, Date startDate, Date endDate, boolean finished) {
+	public Task(Integer id, String name, Date startDate, Date endDate, boolean finished, Project project) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.finished = finished;
+		this.project = project;
 	}
 
 	public Integer getId() {

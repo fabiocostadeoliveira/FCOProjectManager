@@ -20,6 +20,15 @@ public class ProjectService {
 	private ProjectRepository repository;
 	
 	
+	public Project findWithoutValidation(Integer id) {
+
+		Optional<Project> project = repository.findById(id);
+		
+		return project.orElse(null);
+		
+	}
+	
+	
 	public Project find(Integer id) {
 
 		Optional<Project> project = repository.findById(id);
@@ -27,7 +36,7 @@ public class ProjectService {
 		return project.orElseThrow(() -> new ObjectNotFoundException("Projeto nao encontrado - id: " + id));
 		
 	}
-	
+
 	
 	public Project insert(Project obj) {
 		

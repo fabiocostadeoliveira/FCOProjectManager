@@ -8,11 +8,12 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.euax.desafio.domain.Task;
-import com.euax.desafio.services.validations.TaskInsert;
+import com.euax.desafio.services.validations.TaskUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@TaskInsert
-public class TaskDTO implements Serializable{
+
+@TaskUpdate
+public class TaskUpdateDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -23,25 +24,18 @@ public class TaskDTO implements Serializable{
 	private String name;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date startDate;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	private boolean finished;
 	
-	private Integer projectId;
-	
-	public TaskDTO() {
+	public TaskUpdateDTO() {
 	}
 	
-	public TaskDTO(Task task) {
+	public TaskUpdateDTO(Task task) {
 		this.id = task.getId();
 		this.name = task.getName();
-		this.startDate = task.getStartDate();
 		this.endDate = task.getEndDate();
 		this.finished = task.isFinished();
-		this.projectId = task.getProject().getId();
 	}
 
 	public Integer getId() {
@@ -58,14 +52,6 @@ public class TaskDTO implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
 	}
 
 	public Date getEndDate() {
@@ -86,14 +72,6 @@ public class TaskDTO implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Integer getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
 	}
 
 }

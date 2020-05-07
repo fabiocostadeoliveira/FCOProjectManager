@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project implements Serializable{
@@ -31,6 +32,7 @@ public class Project implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private List<Task> tasks = new ArrayList<>();
 	
