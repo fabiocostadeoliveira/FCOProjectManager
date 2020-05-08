@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.euax.desafio.domain.Project;
+import com.euax.desafio.services.validations.ProjectSave;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+@ProjectSave
 public class ProjectDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -20,9 +23,11 @@ public class ProjectDTO implements Serializable{
 	@Length(min = 5, max = 30, message = "O tamanho deve ser entre 5 e 30 caracteres.")
 	private String name;
 	
+	@NotNull(message = "Prenchimento Obrigatorio.")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 	
+	@NotNull(message = "Prenchimento Obrigatorio.")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	

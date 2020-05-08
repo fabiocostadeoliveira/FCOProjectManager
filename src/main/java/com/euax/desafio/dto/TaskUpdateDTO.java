@@ -8,11 +8,10 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.euax.desafio.domain.Task;
-import com.euax.desafio.services.validations.TaskUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+// TODO - feito refactoring nas validações, caso nao seja mais necessario deletar esse fonte
 
-@TaskUpdate
 public class TaskUpdateDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

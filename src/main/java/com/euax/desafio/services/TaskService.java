@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.euax.desafio.domain.Project;
 import com.euax.desafio.domain.Task;
 import com.euax.desafio.dto.TaskDTO;
-import com.euax.desafio.dto.TaskUpdateDTO;
 import com.euax.desafio.repositories.TaskRepository;
 import com.euax.desafio.services.exceptions.ObjectNotFoundException;
 
@@ -24,16 +21,22 @@ public class TaskService {
 	@Autowired
 	private ProjectService projectService;
 	
+	public Task findWithoutValidation(Integer id) {
+
+		Optional<Task> task = repository.findById(id);
+		
+		return task.orElse(null);
+	}
+
+	
 	public Task find(Integer id) {
 
 		Optional<Task> task = repository.findById(id);
 		
 		return task.orElseThrow(() -> new ObjectNotFoundException("Task não encontrada - id: " + id));
-		
 	}
 	
-	
-	@Transactional
+
 	public Task insert(Task obj) {
 		
 		obj.setId(null);
@@ -41,29 +44,28 @@ public class TaskService {
 		return repository.save(obj);
 	}
 	
-	public Task update(Task obj) {
+	
+	public Task update(Task newObj) {
 		
-		Task newObj = find(obj.getId());
+		Task obj = find(newObj.getId());
 		
-		updateData(newObj, obj);
+		updateData(obj, newObj);
 		
 		return repository.save(newObj);
 	}
 	
+	public Task update(Task existingObj, Task newObj) {
+		
+		updateData(existingObj, newObj);
+		
+		return repository.save(existingObj);
+	}
 	
 	public void delete(Integer id) {
 		
 		find(id);
 		
-		try {
-			repository.deleteById(id);
-			
-		} catch (DataIntegrityViolationException dive) {
-			
-			//TODO verificar se tem alguma integridade, caso contrario, pica a porva
-			
-		}
-		
+		repository.deleteById(id);
 	}
 	
 	public List<Task> findByProjectId(Integer projectId) {
@@ -89,16 +91,17 @@ public class TaskService {
 						project);
 	}
 	
-	public Task fromDTO(TaskUpdateDTO taskUpdateDTO) {
+	public Task fromUpdateDTO(TaskDTO taskDTO) {
 		
-		return new Task(null,taskUpdateDTO.getName(),null,taskUpdateDTO.getEndDate(),taskUpdateDTO.isFinished(),null);
+		return new Task(null,taskDTO.getName(),taskDTO.getStartDate(),taskDTO.getEndDate(),taskDTO.isFinished(),null);
 		
 	}
 	
-	private void updateData(Task newObj, Task obj) {
-		newObj.setName(obj.getName());
-		newObj.setEndDate(obj.getEndDate());
-		newObj.setFinished(obj.isFinished());
+	private void updateData(Task oldObj, Task newObj) {
+		oldObj.setName(newObj.getName());
+		oldObj.setStartDate(newObj.getStartDate());
+		oldObj.setEndDate(newObj.getEndDate());
+		oldObj.setFinished(newObj.isFinished());
 	}
 
 	

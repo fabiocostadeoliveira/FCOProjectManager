@@ -9,12 +9,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 
-@Constraint(validatedBy = TaskUpdateValidator.class)
+@Constraint(validatedBy = ProjectSaveValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TaskUpdate {
+public @interface ProjectSave {
 	
-	String message() default "Erro de validação ao alterar task";
+	String message() default "Erro de validação ao alterar projeto";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 

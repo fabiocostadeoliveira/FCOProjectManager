@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.euax.desafio.domain.Task;
-import com.euax.desafio.services.validations.TaskInsert;
+import com.euax.desafio.services.validations.TaskSave;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@TaskInsert
+@TaskSave
 public class TaskDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -22,9 +23,11 @@ public class TaskDTO implements Serializable{
 	@Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres.")
 	private String name;
 	
+	@NotNull(message = "Prenchimento Obrigatorio.")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 	
+	@NotNull(message = "Prenchimento Obrigatorio.")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
@@ -41,7 +44,8 @@ public class TaskDTO implements Serializable{
 		this.startDate = task.getStartDate();
 		this.endDate = task.getEndDate();
 		this.finished = task.isFinished();
-		this.projectId = task.getProject().getId();
+		this.projectId = task.getProject() != null ? task.getProject().getId() : null;
+		
 	}
 
 	public Integer getId() {

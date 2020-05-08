@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.euax.desafio.domain.Project;
+import com.euax.desafio.domain.Task;
 import com.euax.desafio.dto.ProjectDTO;
 import com.euax.desafio.repositories.ProjectRepository;
 import com.euax.desafio.services.exceptions.IntegrityViolationException;
@@ -25,7 +26,6 @@ public class ProjectService {
 		Optional<Project> project = repository.findById(id);
 		
 		return project.orElse(null);
-		
 	}
 	
 	
@@ -34,7 +34,6 @@ public class ProjectService {
 		Optional<Project> project = repository.findById(id);
 		
 		return project.orElseThrow(() -> new ObjectNotFoundException("Projeto nao encontrado - id: " + id));
-		
 	}
 
 	
@@ -45,6 +44,13 @@ public class ProjectService {
 		return repository.save(obj);
 	}
 	
+	
+	public Project update(Project existingObj, Project newObj) {
+		
+		updateData(existingObj, newObj);
+		
+		return repository.save(existingObj);
+	}
 	
 	public void delete(Integer id) {
 		
@@ -73,5 +79,21 @@ public class ProjectService {
 							projectDTO.getStartDate(),
 							projectDTO.getEndDate());
 	}
+	
+	
+/*
+	public Project fromUpdateDTO(ProjectDTO objDTO) {
+		
+		return new Project(null,objDTO.getName(),objDTO.getStartDate(),objDTO.getEndDate());
+	}
+	*/
+	
+	private void updateData(Project oldObj, Project newObj) {
+		oldObj.setName(newObj.getName());
+		oldObj.setStartDate(newObj.getStartDate());
+		oldObj.setEndDate(newObj.getEndDate());
+	}
+
+	
 
 }

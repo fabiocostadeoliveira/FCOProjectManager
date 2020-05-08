@@ -9,12 +9,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 
-@Constraint(validatedBy = TaskInsertValidator.class)
+@Constraint(validatedBy = TaskSaveValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TaskInsert {
+public @interface TaskSave {
 	
-	String message() default "Erro de validação ao inserir task";
+	String message() default "Erro de validação ao salvar task";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 
