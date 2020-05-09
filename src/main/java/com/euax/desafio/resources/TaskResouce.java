@@ -102,10 +102,14 @@ public class TaskResouce {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete (@PathVariable Integer id){
 		
+		Task task = service.findWithoutValidation(id);
+		
+		if (task == null)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		
 		service.delete(id);
 		
 		return ResponseEntity.noContent().build();
-		
 	}
 
 }

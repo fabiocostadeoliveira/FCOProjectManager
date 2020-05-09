@@ -85,7 +85,7 @@ public class TaskSaveValidator implements ConstraintValidator<TaskSave, TaskDTO>
 				}
 				
 			}else {
-				list.add(new FieldMessage("projectId","Projeto não encontrado" ));
+				list.add(new FieldMessage("projectId","Projeto não encontrado!" ));
 			}
 		}
 		
