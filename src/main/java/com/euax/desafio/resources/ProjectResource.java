@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.euax.desafio.domain.Project;
 import com.euax.desafio.dto.ProjectDTO;
+import com.euax.desafio.dto.ProjectDetailsDTO;
 import com.euax.desafio.services.ProjectService;
 
 
@@ -99,5 +100,18 @@ public class ProjectResource {
 		return ResponseEntity.noContent().build();
 		
 	}
+	
+	
+	@RequestMapping(value="/details", method = RequestMethod.GET)
+	public ResponseEntity<ProjectDetailsDTO> details(@RequestParam(value="projectId") Integer projectId) {
+		
+		ProjectDetailsDTO projectDetailsDTO = service.details(projectId);
+		
+		return ResponseEntity.ok().body(projectDetailsDTO);
+	}
+	
+	
+	
+	
 
 }

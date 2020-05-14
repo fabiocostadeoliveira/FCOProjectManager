@@ -92,6 +92,10 @@ public class Task implements Serializable{
 	public void setProject(Project project) {
 		this.project = project;
 	}
+	
+	public static Task maxDate(Task x, Task y) {
+		return x.endDate.after(y.getEndDate()) ? x : y;
+	}
 
 	@Override
 	public int hashCode() {

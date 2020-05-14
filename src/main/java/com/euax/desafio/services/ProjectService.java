@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.euax.desafio.domain.Project;
 import com.euax.desafio.domain.Task;
 import com.euax.desafio.dto.ProjectDTO;
+import com.euax.desafio.dto.ProjectDetailsDTO;
 import com.euax.desafio.repositories.ProjectRepository;
 import com.euax.desafio.services.exceptions.IntegrityViolationException;
 import com.euax.desafio.services.exceptions.ObjectNotFoundException;
@@ -19,6 +20,9 @@ public class ProjectService {
 	
 	@Autowired
 	private ProjectRepository repository;
+	
+	@Autowired
+	TaskService taskService;
 	
 	
 	public Project findWithoutValidation(Integer id) {
@@ -73,6 +77,77 @@ public class ProjectService {
 	}
 	
 	
+	public ProjectDetailsDTO details(Integer projectId) {
+		
+		ProjectDetailsDTO projectDetailsDTO = new ProjectDetailsDTO();
+		
+		Project project = find(projectId);
+		
+		List<Task> listTasks = taskService.findByProjectId(projectId);
+		
+		Integer totalTasks = listTasks.size();
+		
+		Task lastTask = getLastTaskFromList(listTasks);
+		
+		projectDetailsDTO.setTotalTasks(totalTasks);
+		projectDetailsDTO.setWillBeLate(willBeLate(project, lastTask));
+		projectDetailsDTO.setCompletedPercentage(getCompletedPercentage(listTasks));
+		
+		return projectDetailsDTO;
+	}
+	
+	
+	private double getCompletedPercentage(List<Task> listTasks) {
+		
+		Integer total = listTasks.size();
+		
+		Integer totalCompleted = listTasks
+								.stream()
+								.filter(task -> task.isFinished())
+								.map(t -> new Integer(1))
+								.reduce(0, Integer::sum );
+		
+		
+		Double perc = calculateCompletePercentage(total, totalCompleted);
+		
+		return perc;
+	}
+	
+	private Task getLastTaskFromList(List<Task> listTasks) {
+		
+		Task task = listTasks.stream().reduce(Task::maxDate).get();
+		
+		return task;
+	}
+	
+	
+	private double calculateCompletePercentage(Integer totalTasks, Integer totalCompleted) {
+		
+		Double perc = null;
+		
+		try {
+			
+			perc = ( new Double(totalCompleted * 100 ) / new Double(totalTasks));
+		} catch (Exception e) {
+		
+			perc = new Double(0);
+		}
+		
+		return perc;
+	}
+	
+	private boolean willBeLate(Project project, Task lastTask) {
+		
+		if(lastTask == null)
+			return false;
+		
+		if(lastTask.getEndDate().after(project.getEndDate()))
+			return true;
+		
+		return false;
+	}
+	
+	
 	public Project fromDTO(ProjectDTO projectDTO) {
 		return new Project(projectDTO.getId(),
 							projectDTO.getName(),
@@ -80,13 +155,6 @@ public class ProjectService {
 							projectDTO.getEndDate());
 	}
 	
-	
-/*
-	public Project fromUpdateDTO(ProjectDTO objDTO) {
-		
-		return new Project(null,objDTO.getName(),objDTO.getStartDate(),objDTO.getEndDate());
-	}
-	*/
 	
 	private void updateData(Project oldObj, Project newObj) {
 		oldObj.setName(newObj.getName());

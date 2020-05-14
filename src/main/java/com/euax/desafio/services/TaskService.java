@@ -103,6 +103,29 @@ public class TaskService {
 		oldObj.setEndDate(newObj.getEndDate());
 		oldObj.setFinished(newObj.isFinished());
 	}
+	
+	
+	/*
+	public Integer totalTasksByProjectId(Integer projectId) {
+		
+		Long totalLong = repository.countTasksByProjectId(projectId);
+		
+		Integer totalInt = totalLong == null ? null : Math.toIntExact(totalLong);
+		
+		return totalInt;
+	}
+	
+	public Date lastTaskDate(Integer projectId) {
+		Date lastDate = null;
+		
+		Task task = repository.findlastTaskByProjectId(projectId);
+		
+		if (task != null)
+			lastDate = task.getEndDate();
+		
+		return lastDate;
+	}
+	*/
 
 	
 	
