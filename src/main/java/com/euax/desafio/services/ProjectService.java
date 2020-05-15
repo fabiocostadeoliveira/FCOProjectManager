@@ -115,9 +115,7 @@ public class ProjectService {
 	
 	private Task getLastTaskFromList(List<Task> listTasks) {
 		
-		Task task = listTasks.stream().reduce(Task::maxDate).get();
-		
-		return task;
+		return listTasks.stream().reduce(Task::maxDate).orElse(null);
 	}
 	
 	
@@ -128,6 +126,10 @@ public class ProjectService {
 		try {
 			
 			perc = ( new Double(totalCompleted * 100 ) / new Double(totalTasks));
+			
+			if (Double.isNaN(perc))
+				throw new Exception();
+			
 		} catch (Exception e) {
 		
 			perc = new Double(0);
